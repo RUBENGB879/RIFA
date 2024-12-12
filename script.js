@@ -122,3 +122,4 @@ function selectNumber(number, element) {
   // Mostrar el modal de compra
   showPurchaseModal(number, element);
 }
+
