@@ -39,7 +39,7 @@ while (numbers.length < 100) {
 numbers.forEach(i => {
   const numberDiv = document.createElement("div");
   numberDiv.className = "number";
-  numberDiv.textContent = i;
+  numberDiv.textContent = ''; // No mostrar el número en el cuadro
   numberDiv.id = `number-${i}`;
   numberDiv.addEventListener("click", () => selectNumber(i, numberDiv));
   numberGrid.appendChild(numberDiv);
@@ -98,7 +98,8 @@ function confirmPurchase() {
           // Cerrar el modal
           document.getElementById('dataModal').style.display = 'none';
 
-          alert(`Compra confirmada para el número ${number}. ¡Gracias por tu compra!`);
+          // Mostrar mensaje de éxito con el número seleccionado
+          alert(`¡Compra confirmada! El número que te tocó es: ${number}`);
         })
         .catch((error) => {
           console.error("Error al guardar los datos de la compra:", error);
