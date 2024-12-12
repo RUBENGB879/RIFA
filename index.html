@@ -4,13 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rifa del 1 al 100</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Puedes agregar estilos aquí -->
     <script type="module" src="script.js" defer></script>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 20px; }
+        .grid { display: grid; grid-template-columns: repeat(10, 1fr); gap: 10px; max-width: 500px; margin: auto; }
+        .number { padding: 10px; border: 1px solid #000; border-radius: 5px; cursor: pointer; background-color: #f0f0f0; text-align: center; }
+        .sold { background-color: #f44336; color: #fff; text-decoration: line-through; cursor: not-allowed; }
+    </style>
 </head>
 <body>
     <h1>Rifa del 1 al 100</h1>
+    <p>Haz clic en un número para seleccionarlo. Los números ya vendidos están marcados en rojo.</p>
     <div id="numberGrid"></div>
-
     <!-- Modal para ingresar datos -->
     <div id="dataModal" style="display:none;">
         <h2>Datos de la venta</h2>
