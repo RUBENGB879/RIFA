@@ -45,6 +45,7 @@ onValue(numbersRef, (snapshot) => {
       if (data[key] === "vendido") {
         const soldElement = document.getElementById(`number-${key}`);
         if (soldElement) soldElement.classList.add("sold");
+        soldElement.textContent = "Vendido"; // Mostrar "Vendido"
       }
     }
   }
