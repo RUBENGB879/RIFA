@@ -17,9 +17,11 @@ const database = firebase.database();
 // Mostrar números de forma aleatoria
 function shuffleNumbers() {
     let numbers = [];
+    
     for (let i = 1; i <= 100; i++) {
         numbers.push(i);
     }
+    
     return numbers.sort(() => Math.random() - 0.5); // Mezcla aleatoriamente los números
 }
 
@@ -32,12 +34,13 @@ function displayNumbers() {
     
     numbers.forEach((number) => {
         const numberElement = document.createElement('div');
-        numberElement.classList.add('number', 'hidden'); // Inicialmente oculto
+        numberElement.classList.add('number');
+        numberElement.classList.add('hidden'); // Inicialmente oculto
         numberElement.textContent = number;
         numberElement.addEventListener('click', () => selectNumber(number));
         grid.appendChild(numberElement);
         
-        // Mostrar los números después de un breve retraso
+        // Mostrar el número después de un breve retraso
         setTimeout(() => {
             numberElement.classList.remove('hidden'); // Hacer visible el número
         }, 100); // Ajusta el tiempo según sea necesario
