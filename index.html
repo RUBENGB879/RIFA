@@ -7,28 +7,34 @@
     <script type="module" src="script.js" defer></script>
     <style>
         body { font-family: Arial, sans-serif; text-align: center; margin: 20px; }
-        .grid { display: grid; grid-template-columns: repeat(10, 1fr); gap: 5px; max-width: 500px; margin: auto; }
-        .number { padding: 8px; border: 1px solid #000; border-radius: 5px; cursor: pointer; background-color: #f0f0f0; text-align: center; font-size: 12px; }
+        .grid { display: grid; grid-template-columns: repeat(10, 1fr); gap: 10px; max-width: 500px; margin: auto; }
+        .number { padding: 10px; border: 1px solid #000; border-radius: 5px; cursor: pointer; background-color: #f0f0f0; text-align: center; }
         .sold { background-color: #f44336; color: #fff; text-decoration: line-through; cursor: not-allowed; }
-
-        /* Estilo del modal */
-        #dataModal {
-            display: none;
-            background: rgba(0, 0, 0, 0.5);
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+        /* Estilos del modal */
+        #dataModal { 
+            display: none; 
+            position: fixed; 
+            top: 50%; 
+            left: 50%; 
+            transform: translate(-50%, -50%); 
+            background-color: white; 
+            padding: 20px; 
+            border-radius: 8px; 
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
             z-index: 1000;
-            text-align: center;
         }
-        #dataModal div {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            display: inline-block;
-            margin-top: 100px;
+        #dataModal input { 
+            margin: 10px 0; 
+            padding: 8px; 
+            width: 200px;
+        }
+        #dataModal button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
         }
     </style>
 </head>
@@ -39,16 +45,12 @@
     
     <!-- Modal para ingresar datos -->
     <div id="dataModal">
-        <div>
-            <h2>Datos de la compra</h2>
-            <label for="buyerName">Nombre del comprador:</label>
-            <input type="text" id="buyerName" required placeholder="Nombre del comprador">
-            <br><br>
-            <label for="sellerName">Nombre del vendedor:</label>
-            <input type="text" id="sellerName" required placeholder="Nombre del vendedor">
-            <br><br>
-            <button onclick="confirmPurchase()">Confirmar compra</button>
-        </div>
+        <h2>Datos de la compra</h2>
+        <label for="buyerName">Nombre del comprador:</label>
+        <input type="text" id="buyerName" required>
+        <label for="sellerName">Nombre del vendedor:</label>
+        <input type="text" id="sellerName" required>
+        <button onclick="confirmPurchase()">Confirmar compra</button>
     </div>
 
 </body>
