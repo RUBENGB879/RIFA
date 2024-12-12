@@ -23,7 +23,9 @@ const numbersRef = ref(db, "RIFA/NUMERO");
 
 // Obtener el contenedor de la cuadrícula
 const numberGrid = document.getElementById("numberGrid");
-let numbers = generateRandomNumbers(100); // Generamos números aleatorios
+
+// Generamos números aleatorios del 1 al 100
+let numbers = generateRandomNumbers(100);
 
 // Crear la cuadrícula de números
 numbers.forEach(number => {
@@ -67,10 +69,11 @@ function selectNumber(number, element) {
     return;
   }
 
+  // Guardar el número seleccionado y el elemento en variables globales
   window.selectedNumber = number;
   window.selectedElement = element;
 
-  // Mostrar el modal de ingreso de datos
+  // Mostrar el modal para ingresar los datos
   document.getElementById('dataModal').style.display = 'flex';
 }
 
