@@ -31,7 +31,7 @@ let numbers = generateRandomNumbers(100);
 numbers.forEach(number => {
   const numberDiv = document.createElement("div");
   numberDiv.className = "number";
-  numberDiv.textContent = "?";  // Los números estarán ocultos
+  numberDiv.textContent = "?";  // Los números estarán ocultos al principio
   numberDiv.id = `number-${number}`;
   numberDiv.addEventListener("click", () => selectNumber(number, numberDiv));
   numberGrid.appendChild(numberDiv);
@@ -44,8 +44,10 @@ onValue(numbersRef, (snapshot) => {
     for (let key in data) {
       if (data[key] === "vendido") {
         const soldElement = document.getElementById(`number-${key}`);
-        if (soldElement) soldElement.classList.add("sold");
-        soldElement.textContent = "Vendido"; // Mostrar "Vendido"
+        if (soldElement) {
+          soldElement.classList.add("sold");
+          soldElement.textContent = key; // Mostrar el número vendido
+        }
       }
     }
   }
