@@ -10,41 +10,11 @@
         .grid { display: grid; grid-template-columns: repeat(10, 1fr); gap: 10px; max-width: 500px; margin: auto; }
         .number { padding: 10px; border: 1px solid #000; border-radius: 5px; cursor: pointer; background-color: #f0f0f0; text-align: center; }
         .sold { background-color: #f44336; color: #fff; text-decoration: line-through; cursor: not-allowed; }
-        #dataModal { 
-            background-color: rgba(0, 0, 0, 0.5); 
-            position: fixed; 
-            top: 0; 
-            left: 0; 
-            right: 0; 
-            bottom: 0; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-        }
-        .modalContent {
-            background-color: white;
-            padding: 20px;
-            border-radius: 5px;
-            text-align: center;
-        }
     </style>
 </head>
 <body>
     <h1>Rifa del 1 al 100</h1>
     <p>Haz clic en un número para seleccionarlo. Los números ya vendidos están marcados en rojo.</p>
     <div id="numberGrid" class="grid"></div>
-
-    <!-- Modal para ingresar datos -->
-    <div id="dataModal" style="display:none;">
-        <div class="modalContent">
-            <h2>Datos de la venta</h2>
-            <label for="buyerName">Nombre del comprador:</label>
-            <input type="text" id="buyerName" required>
-            <label for="sellerName">Nombre del vendedor:</label>
-            <input type="text" id="sellerName" required>
-            <button onclick="confirmPurchase()">Confirmar compra</button>
-        </div>
-    </div>
 </body>
 </html>
-
