@@ -73,11 +73,11 @@ function selectNumber(number, element) {
   dataModal.style.display = "block";
 
   // Guardar la información en Firebase después de que el formulario se haya completado
-  document.querySelector("button[onclick='saveSale()']").onclick = () => saveSale(number);
+  document.querySelector("button[onclick='continuePurchase()']").onclick = () => continuePurchase(number);
 }
 
-// Función para guardar los datos de la compra
-function saveSale(number) {
+// Función para continuar la compra
+function continuePurchase(number) {
   const buyerName = document.getElementById("buyerName").value;
   const sellerName = document.getElementById("sellerName").value;
 
