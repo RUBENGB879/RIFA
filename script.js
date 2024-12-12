@@ -31,7 +31,7 @@ let numbers = generateRandomNumbers(100);
 numbers.forEach(number => {
   const numberDiv = document.createElement("div");
   numberDiv.className = "number";
-  numberDiv.textContent = number;
+  numberDiv.textContent = "?";  // Los números estarán ocultos
   numberDiv.id = `number-${number}`;
   numberDiv.addEventListener("click", () => selectNumber(number, numberDiv));
   numberGrid.appendChild(numberDiv);
@@ -69,49 +69,17 @@ function selectNumber(number, element) {
     return;
   }
 
-  // Guardar el número seleccionado y el elemento en variables globales
-  window.selectedNumber = number;
-  window.selectedElement = element;
+  // Mostrar el número en el cuadro (reemplazar el signo de interrogación)
+  element.textContent = number;
 
-  // Mostrar el modal para ingresar los datos
-  document.getElementById('dataModal').style.display = 'flex';
-}
-
-// Función para confirmar la compra
-function confirmPurchase() {
-  const buyerName = document.getElementById('buyerName').value.trim();
-  const sellerName = document.getElementById('sellerName').value.trim();
-
-  if (!buyerName || !sellerName) {
-    alert("Por favor, ingresa tanto el nombre del comprador como el del vendedor.");
-    return;
-  }
-
-  const number = window.selectedNumber;  // El número seleccionado
-  const element = window.selectedElement;  // El cuadro seleccionado (HTML)
-
-  // Marcar el número como "vendido" en la base de datos
-  set(ref(db, `RIFA/NUMERO/${number}`), "vendido")  // Cambiar a "vendido"
+  // Marcar el número como "vendido" en Firebase
+  set(ref(db, `RIFA/NUMERO/${number}`), "vendido")
     .then(() => {
-      // Guardar la información del comprador
-      set(ref(db, `RIFA/COMPRADOR/${number}`), buyerName);
+      // Cambiar el estilo del número a "vendido"
+      element.classList.add("sold");
 
-      // Guardar la información del vendedor
-      set(ref(db, `RIFA/VENDEDOR/${number}`), sellerName)
-        .then(() => {
-          // Cambiar el estilo del número a "vendido"
-          element.classList.add("sold");
-
-          // Cerrar el modal de ingreso de datos
-          document.getElementById('dataModal').style.display = 'none';
-
-          // Mostrar mensaje con el número que le tocó
-          alert(`¡Compra confirmada! El número que te tocó es: ${number}`);
-        })
-        .catch((error) => {
-          console.error("Error al guardar los datos del vendedor:", error);
-          alert("Hubo un problema al guardar los datos del vendedor.");
-        });
+      // Mostrar mensaje con el número que le tocó
+      alert(`¡Número ${number} seleccionado y marcado como vendido!`);
     })
     .catch((error) => {
       console.error("Error al actualizar Firebase:", error);
