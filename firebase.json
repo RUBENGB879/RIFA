@@ -1,0 +1,10 @@
+{
+  "hosting": {
+    "public": ".",  // Esto le indica a Firebase que la carpeta actual (.) contiene los archivos
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}

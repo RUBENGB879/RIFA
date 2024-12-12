@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rifa del 1 al 100</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Puedes agregar estilos en este archivo -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <h1>Rifa del 1 al 100</h1>
+    <div id="numberGrid"></div>
+
+    <!-- Modal para ingresar datos -->
+    <div id="dataModal" style="display:none;">
+        <h2>Datos de la venta</h2>
+        <label for="buyerName">Nombre del comprador:</label>
+        <input type="text" id="buyerName" required>
+        <label for="sellerName">Nombre del vendedor:</label>
+        <input type="text" id="sellerName" required>
+        <button onclick="saveSale()">Confirmar compra</button>
+        <button onclick="document.getElementById('dataModal').style.display='none'">Cancelar</button>
+    </div>
+
+</body>
+</html>
