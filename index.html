@@ -4,15 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rifa del 1 al 100</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Puedes agregar estilos aquí -->
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
-    <script src="script.js" defer></script>
+    <script type="module" src="script.js" defer></script>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        .grid { display: grid; grid-template-columns: repeat(10, 1fr); gap: 10px; max-width: 500px; margin: auto; }
+        .number { padding: 10px; border: 1px solid #000; border-radius: 5px; cursor: pointer; background-color: #f0f0f0; }
+        .sold { background-color: #f44336; color: #fff; text-decoration: line-through; cursor: not-allowed; }
+        .hidden { background-color: #000; color: #000; cursor: pointer; }
+    </style>
 </head>
 <body>
     <h1>Rifa del 1 al 100</h1>
-    <div id="numberGrid"></div>
-
+    <p>Haz clic en un número para seleccionarlo.</p>
+    <div class="grid" id="numberGrid"></div>
     <!-- Modal para ingresar datos -->
     <div id="dataModal" style="display:none;">
         <h2>Datos de la venta</h2>
