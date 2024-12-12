@@ -24,34 +24,35 @@ const numbersRef = ref(db, "numbers");
 // Obtener el contenedor de la cuadrícula
 const numberGrid = document.getElementById("numberGrid");
 
-// Crear la cuadrícula de números aleatorios
-function createRandomNumbers() {
-  const numbers = Array.from({ length: 100 }, (_, i) => i + 1);
-  return numbers.sort(() => Math.random() - 0.5); // Mezcla aleatoriamente los números
+// Crear un array con los números del 1 al 100 y mezclarlo aleatoriamente
+const numbers = Array.from({ length: 100 }, (_, i) => i + 1);
+shuffleArray(numbers);
+
+// Función para mezclar un array aleatoriamente
+function shuffleArray(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
 }
 
-// Mostrar los números en la interfaz
-function displayNumbers() {
-  const randomNumbers = createRandomNumbers();
-  
-  randomNumbers.forEach((number) => {
-    const numberDiv = document.createElement("div");
-    numberDiv.className = "number hidden"; // Inicialmente oculto
-    numberDiv.textContent = number;
-    numberDiv.id = `number-${number}`;
-    numberDiv.addEventListener("click", () => selectNumber(number, numberDiv));
-    numberGrid.appendChild(numberDiv);
-  });
-}
+// Crear la cuadrícula de números (sin mostrar el número aún)
+numbers.forEach((number, index) => {
+  const numberDiv = document.createElement("div");
+  numberDiv.className = "number";
+  numberDiv.id = `number-${number}`;
+  numberDiv.addEventListener("click", () => selectNumber(number, numberDiv));
+  numberGrid.appendChild(numberDiv);
+});
 
 // Escuchar cambios en Firebase y actualizar la cuadrícula
 onValue(numbersRef, (snapshot) => {
   const data = snapshot.val();
   if (data) {
     for (let key in data) {
-      if (data[key].sold) {
+      if (data[key]) {
         const soldElement = document.getElementById(`number-${key}`);
-        if (soldElement) soldElement.classList.add("sold"); // Marcar como vendido
+        if (soldElement) soldElement.classList.add("sold");
       }
     }
   }
@@ -64,47 +65,52 @@ function selectNumber(number, element) {
     return;
   }
 
-  // Mostrar modal para ingresar datos
-  document.getElementById('dataModal').style.display = 'block';
-  
-  // Guardar el número seleccionado en una variable global para usarlo más tarde
-  window.selectedNumber = number;
+  // Mostrar el número en el cuadro
+  element.textContent = number;
+
+  // Mostrar el formulario de datos
+  const dataModal = document.getElementById("dataModal");
+  dataModal.style.display = "block";
+
+  // Guardar la información en Firebase después de que el formulario se haya completado
+  document.querySelector("button[onclick='saveSale()']").onclick = () => saveSale(number);
 }
 
-// Guardar los datos de la compra en Firebase
-function saveSale() {
-  const buyerName = document.getElementById('buyerName').value;
-  const sellerName = document.getElementById('sellerName').value;
+// Función para guardar los datos de la compra
+function saveSale(number) {
+  const buyerName = document.getElementById("buyerName").value;
+  const sellerName = document.getElementById("sellerName").value;
 
   if (!buyerName || !sellerName) {
-    alert('Por favor, ingresa el nombre del comprador y vendedor.');
+    alert("Por favor, complete todos los campos.");
     return;
   }
 
-  // Marcar el número como vendido en Firebase
-  set(ref(db, `numbers/${window.selectedNumber}`), { sold: true })
-    .then(() => {
-      alert(`¡Número ${window.selectedNumber} seleccionado y marcado como vendido!`);
-      document.getElementById('dataModal').style.display = 'none'; // Cerrar el modal
-      displayNumbers(); // Actualizar la cuadrícula de números
-    })
-    .catch((error) => {
-      console.error("Error al actualizar Firebase:", error);
-      alert("Hubo un problema al seleccionar este número. Intenta nuevamente.");
-    });
+  // Guardar los datos en Firebase
+  set(ref(db, `purchases/${number}`), {
+    buyer: buyerName,
+    seller: sellerName
+  })
+  .then(() => {
+    alert(`Compra confirmada para el número ${number}!`);
+    // Marcar el número como vendido en Firebase
+    set(ref(db, `numbers/${number}`), true)
+      .then(() => {
+        const soldElement = document.getElementById(`number-${number}`);
+        soldElement.classList.add("sold");
+      })
+      .catch((error) => {
+        console.error("Error al actualizar Firebase:", error);
+        alert("Hubo un problema al actualizar la base de datos.");
+      });
+
+    // Cerrar el modal y resetear el formulario
+    document.getElementById("dataModal").style.display = "none";
+    document.getElementById("buyerName").value = "";
+    document.getElementById("sellerName").value = "";
+  })
+  .catch((error) => {
+    console.error("Error al guardar la compra:", error);
+    alert("Hubo un problema al guardar los datos.");
+  });
 }
-
-// Cargar los números cuando la página se carga
-window.onload = () => {
-   displayNumbers();
-};
-
-// Bloquear la salida si el formulario no ha sido completado
-window.addEventListener('beforeunload', function (event) {
-   if (document.getElementById('dataModal').style.display === 'block') {
-       const confirmationMessage = "Tienes un número seleccionado, ¿estás seguro de que quieres salir sin completar la compra?";
-       event.returnValue = confirmationMessage; // Este mensaje aparece en algunos navegadores.
-       return confirmationMessage; // Para otros navegadores.
-   }
-});
-
